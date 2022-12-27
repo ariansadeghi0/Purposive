@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import { Inter } from '@next/font/google'
 import NavBar from '../components/NavBar/NavBar'
+import TaskBoard from '../components/TaskBoard/TaskBoard'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -14,6 +15,7 @@ export default function Home() {
       </Head>
       <body>
         <NavBar/>
+        <TaskBoard/>
       </body>
     </>
   )
