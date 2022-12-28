@@ -11,10 +11,11 @@ export default function Task({category, title, description, deadline}) {
             <div>{deadline}</div>
             <Image className={styles.edit_icon}
                 src="/edit-icon.svg"
+                alt='Edit Icon'
                 height={20}
                 width={20}
             />
-            <input type='checkbox' className={styles.completed_check}></input>
+            <input type='checkbox' title='Completed Check' className={styles.completed_check}></input>
         </div>
     )
 }
