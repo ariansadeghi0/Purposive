@@ -23,6 +23,17 @@ export default function TaskBoard(props) {
         ])
     }
 
+    const handleEditTask = (id, {category, title, description, deadline}) => {
+        setTasks((prevTasks) => prevTasks.map(task => {
+            return task.id !== id ? task : {
+                "category": category,
+                "title": title,
+                "description": description,
+                "deadline": deadline
+            }
+        }))
+    }
+
     const handleDeleteTask = (id) => {
         setTasks(prevTasks => prevTasks.filter(item => item.id !== id))
     }
@@ -31,10 +42,12 @@ export default function TaskBoard(props) {
         return (
             <Task
                 key={task.id}
+                id={task.id}
                 category={task.category}
                 title={task.title}
                 description={task.description || "..."}
                 deadline={task.deadline || "..."}
+                editTask={(newTask)=>handleEditTask(task.id, newTask)}
                 deleteTask={()=>handleDeleteTask(task.id)}
             />
         )

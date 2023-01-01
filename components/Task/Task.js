@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import styles from './Task.module.css';
 import Image from 'next/image';
 import DeleteTaskDialog from '../DeleteTaskDialog/DeleteTaskDialog';
+import EditTaskDialog from '../EditTaskDialog/EditTaskDialog';
 
-export default function Task({category, title, description, deadline, deleteTask}) {
+export default function Task({category, title, description, deadline, editTask, deleteTask}) {
     const [deleteTaskDialogOpen, setDeleteTaskDialogOpen] = useState(false);
+    const [editTaskDialogOpen, setEditTaskDialogOpen] = useState(false);
 
     return (
         <>
@@ -13,7 +15,7 @@ export default function Task({category, title, description, deadline, deleteTask
                 <div>{title}</div>
                 <div>{description}</div>
                 <div>{deadline}</div>
-                <button className={styles.action_button}>
+                <button className={styles.action_button} onClick={()=>setEditTaskDialogOpen(true)}>
                     <Image
                         src="/edit-icon.svg"
                         alt='Edit Icon'
@@ -31,6 +33,16 @@ export default function Task({category, title, description, deadline, deleteTask
                 </button>
                 <input type='checkbox' title='Completed Check' className={styles.completed_check}></input>
             </div>
+            {editTaskDialogOpen &&
+            <EditTaskDialog  
+                category={category}
+                title={title}
+                description={description}
+                deadline={deadline}
+                closeDialog={() => setEditTaskDialogOpen(false)}
+                handleEditTask={editTask}
+            />
+            }
             {deleteTaskDialogOpen &&
             <DeleteTaskDialog closeDialog={() => setDeleteTaskDialogOpen(false)} handleDeleteTask={deleteTask}/>
             }
