@@ -38,13 +38,14 @@ export default function AddTaskDialog({closeDialog, handleAddTask}) {
                     <textarea className={styles.textarea} id="description" name="description" placeholder="Describe the details of this task..."></textarea>
                     <button className={styles.create_button} type="submit">Create Task</button>
                 </form>
-                <Image className={styles.close_icon}
-                    src="/cross-icon.svg"
-                    alt='Close Icon'
-                    height={20}
-                    width={20}
-                    onClick={closeDialog}
-                />
+                <button className={styles.close_button} onClick={closeDialog}>
+                    <Image
+                        src="/cross-icon.svg"
+                        alt='Close Icon'
+                        height={20}
+                        width={20}
+                    />
+                </button>
             </div>
         </div>
     )

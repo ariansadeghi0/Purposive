@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import AddTaskDialog from '../AddTaskDialog/AddTaskDialog';
+import DeleteTaskDialog from '../DeleteTaskDialog/DeleteTaskDialog';
 import Task from '../Task/Task';
 import styles from './TaskBoard.module.css';
 import Image from 'next/image';
@@ -8,14 +9,6 @@ import { v4 as uuid } from 'uuid';
 export default function TaskBoard(props) {
     const [tasks, setTasks] = useState([]);
     const [addTaskDialogOpen, setAddTaskDialogOpen] = useState(false);
-
-    const openAddTaskDialog = () => {
-        setAddTaskDialogOpen(true);
-    }
-
-    const closeAddTaskDialog = () => {
-        setAddTaskDialogOpen(false);
-    }
 
     const handleAddTask = ({category, title, description, deadline}) => {
         setTasks((prevTasks) => [
@@ -30,14 +23,19 @@ export default function TaskBoard(props) {
         ])
     }
 
+    const handleDeleteTask = (id) => {
+        setTasks(prevTasks => prevTasks.filter(item => item.id !== id))
+    }
+
     const taskElements = tasks.map(task => {
         return (
             <Task
-                key={task.id}    //FIX THIS
+                key={task.id}
                 category={task.category}
                 title={task.title}
                 description={task.description || "..."}
                 deadline={task.deadline || "..."}
+                deleteTask={()=>handleDeleteTask(task.id)}
             />
         )
     })
@@ -50,7 +48,7 @@ export default function TaskBoard(props) {
                     <div className={styles.header}>Title</div>
                     <div className={styles.header}>Description</div>
                     <div className={styles.header}>Deadline</div>
-                    <button className={styles.add_task_button} onClick={openAddTaskDialog} title="Click to create a new task">
+                    <button className={styles.add_task_button} onClick={() => setAddTaskDialogOpen(true)} title="Click to create a new task">
                         <Image className={styles.add_icon}
                             src="/cross-icon.svg"
                             alt='Add Icon'
@@ -63,7 +61,7 @@ export default function TaskBoard(props) {
                 {taskElements}
             </div>
             {addTaskDialogOpen && 
-            <AddTaskDialog closeDialog={()=>closeAddTaskDialog()} handleAddTask={(task)=>handleAddTask(task)}/>
+            <AddTaskDialog closeDialog={() => setAddTaskDialogOpen(false)} handleAddTask={(task)=>handleAddTask(task)}/>
             }
         </>
     )

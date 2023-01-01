@@ -7,8 +7,9 @@
     border-radius: 10px;
 
     display: grid;
-    grid-template-columns: 20% 25% 17.5% 22.5% 5% 5%;
+    grid-template-columns: 20% 25% 17.5% 22.5% 2% 2% 5%;
     column-gap: 1%;
+    align-items: center;
     justify-items: center;
     padding: 10px 15px;
 
@@ -29,14 +30,17 @@
     transition: all 0.25s ease-in-out;
 }
 
-.edit_icon {
+.action_button {
+    background-color: transparent;
+    border: none;
+    height: fit-content;
+    padding: 0px;
     align-self: center;
-
     cursor: pointer;
     transition: all 0.25s ease-in-out;
 }
 
-.edit_icon:hover, .completed_check:hover {
+.action_button:hover, .completed_check:hover {
     filter: drop-shadow(0px 0px 5px rgb(255, 255, 255));
     transform: rotate(-5deg);
 }
