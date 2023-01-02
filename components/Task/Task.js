@@ -80,7 +80,7 @@ export default function Task({task, setTasks}) {
                         width={20}
                     />
                 </button>
-                <input type='checkbox' title='Completed Check' value={completed} className={styles.completed_check} onChange={onCompletedChange}></input>
+                <input type='checkbox' title='Completed Check' checked={completed} className={styles.completed_check} onChange={onCompletedChange}></input>
             </div>
             {editTaskDialogOpen &&
             <EditTaskDialog  

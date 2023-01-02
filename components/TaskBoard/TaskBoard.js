@@ -12,7 +12,7 @@ export default function TaskBoard(props) {
         (async () => {
             const getTasks = await fetch("/api/task");
             const getTasksJson = await getTasks.json().finally();
-            setTasks(getTasksJson.map(task => ({id: task._id, ...task})));
+            setTasks(getTasksJson.map(task => ({_id: task._id, ...task})));
         })();
     }, [])
 
