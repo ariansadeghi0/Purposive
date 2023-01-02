@@ -6,7 +6,7 @@ import EditTaskDialog from '../EditTaskDialog/EditTaskDialog';
 
 export default function Task({task, setTasks}) {
     const {_id, user, body} = task;
-    const {category, title, description, deadline} = body;
+    const {category, title, description, deadline, completed} = body;
 
     const [deleteTaskDialogOpen, setDeleteTaskDialogOpen] = useState(false);
     const [editTaskDialogOpen, setEditTaskDialogOpen] = useState(false);
@@ -33,6 +33,16 @@ export default function Task({task, setTasks}) {
         }));
     };
 
+    const onCompletedChange = (event) => {
+        onEditTask({
+            ...task,
+            body: {
+                ...body,
+                completed: event.target.checked
+            }
+        })
+    }
+
     const onDeleteTask = async () => {
         const response = await fetch("/api/task", {
             method: "DELETE",
@@ -46,7 +56,6 @@ export default function Task({task, setTasks}) {
 
         setTasks(tasks => tasks.filter(item => item._id !== _id));
     };
-
 
     return (
         <>
@@ -71,7 +80,7 @@ export default function Task({task, setTasks}) {
                         width={20}
                     />
                 </button>
-                <input type='checkbox' title='Completed Check' className={styles.completed_check}></input>
+                <input type='checkbox' title='Completed Check' value={completed} className={styles.completed_check} onChange={onCompletedChange}></input>
             </div>
             {editTaskDialogOpen &&
             <EditTaskDialog  

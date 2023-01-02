@@ -3,7 +3,6 @@ import AddTaskDialog from '../AddTaskDialog/AddTaskDialog';
 import Task from '../Task/Task';
 import styles from './TaskBoard.module.css';
 import Image from 'next/image';
-import { v4 as uuid } from 'uuid';
 
 export default function TaskBoard(props) {
     const [tasks, setTasks] = useState([]);
@@ -25,6 +24,7 @@ export default function TaskBoard(props) {
                 title: title,
                 description: description,
                 deadline: deadline,
+                completed: false
             },
             user: {
                 id: "aglkahgla",
