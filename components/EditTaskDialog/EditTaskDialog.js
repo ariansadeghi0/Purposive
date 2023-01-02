@@ -2,14 +2,19 @@ import React from "react";
 import styles from "./EditTaskDialog.module.css";
 import Image from "next/image";
 
-export default function EditTaskDialog({category, title, description, deadline, closeDialog, handleEditTask}){
+export default function EditTaskDialog({task, closeDialog, editTask}){
+    const {category, title, description, deadline} = task.body;
+    
     const handleSubmit = (event) => {
         event.preventDefault();
-        handleEditTask({
-            category: event.target.category.value,
-            title: event.target.title.value,
-            description: event.target.description.value,
-            deadline: event.target.deadline.value
+        editTask({
+            ...task,
+            body: {
+                category: event.target.category.value,
+                title: event.target.title.value,
+                description: event.target.description.value,
+                deadline: event.target.deadline.value
+            }
         })
         closeDialog();
     }

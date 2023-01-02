@@ -2,10 +2,10 @@ import React from "react";
 import styles from "./DeleteTaskDialog.module.css";
 import Image from "next/image";
 
-export default function DeleteTaskDialog({handleDeleteTask, closeDialog}){
+export default function DeleteTaskDialog({deleteTask, closeDialog}){
     const handleSubmit = (event) => {
         event.preventDefault();
-        handleDeleteTask();
+        deleteTask();
         closeDialog();
     }
 

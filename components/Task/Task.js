@@ -4,9 +4,49 @@ import Image from 'next/image';
 import DeleteTaskDialog from '../DeleteTaskDialog/DeleteTaskDialog';
 import EditTaskDialog from '../EditTaskDialog/EditTaskDialog';
 
-export default function Task({category, title, description, deadline, editTask, deleteTask}) {
+export default function Task({task, setTasks}) {
+    const {_id, user, body} = task;
+    const {category, title, description, deadline} = body;
+
     const [deleteTaskDialogOpen, setDeleteTaskDialogOpen] = useState(false);
     const [editTaskDialogOpen, setEditTaskDialogOpen] = useState(false);
+
+    const onEditTask = async (editedTask) => {
+        const response = await fetch("/api/task", {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                _id,
+                body: editedTask.body
+            })
+        });
+
+        const responseJson = await response.json();
+
+        setTasks((prevTasks) => prevTasks.map(task => {
+            return task._id !== _id ? task : {
+                ...task,
+                body: editedTask.body
+            }
+        }));
+    };
+
+    const onDeleteTask = async () => {
+        const response = await fetch("/api/task", {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({_id})
+        });
+
+        const responseJson = await response.json();
+
+        setTasks(tasks => tasks.filter(item => item._id !== _id));
+    };
+
 
     return (
         <>
@@ -35,16 +75,13 @@ export default function Task({category, title, description, deadline, editTask, 
             </div>
             {editTaskDialogOpen &&
             <EditTaskDialog  
-                category={category}
-                title={title}
-                description={description}
-                deadline={deadline}
+                task={task}
                 closeDialog={() => setEditTaskDialogOpen(false)}
-                handleEditTask={editTask}
+                editTask={onEditTask}
             />
             }
             {deleteTaskDialogOpen &&
-            <DeleteTaskDialog closeDialog={() => setDeleteTaskDialogOpen(false)} handleDeleteTask={deleteTask}/>
+            <DeleteTaskDialog closeDialog={() => setDeleteTaskDialogOpen(false)} deleteTask={onDeleteTask}/>
             }
         </>
     )

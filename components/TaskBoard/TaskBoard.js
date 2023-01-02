@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import AddTaskDialog from '../AddTaskDialog/AddTaskDialog';
-import DeleteTaskDialog from '../DeleteTaskDialog/DeleteTaskDialog';
 import Task from '../Task/Task';
 import styles from './TaskBoard.module.css';
 import Image from 'next/image';
@@ -10,49 +9,59 @@ export default function TaskBoard(props) {
     const [tasks, setTasks] = useState([]);
     const [addTaskDialogOpen, setAddTaskDialogOpen] = useState(false);
 
-    const handleAddTask = ({category, title, description, deadline}) => {
-        setTasks((prevTasks) => [
-            ...prevTasks,
+    useEffect(()=> {
+        (async () => {
+            const getTasks = await fetch("/api/task");
+            const getTasksJson = await getTasks.json().finally();
+            setTasks(getTasksJson.map(task => ({id: task._id, ...task})));
+        })();
+    }, [])
+
+    const handleAddTask = async ({category, title, description, deadline}) => {
+        const task = {
+            createdAt: Date.now(),
+            body: {
+                category: category,
+                title: title,
+                description: description,
+                deadline: deadline,
+            },
+            user: {
+                id: "aglkahgla",
+                name: "Arian Sadeghi",
+                username: "ariosh"
+            }
+        };
+
+        const response = await fetch("/api/task", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(task)
+        });
+
+        const responseJson = await response.json();
+
+        setTasks((tasks) => [
+            ...tasks,
             {
-                "id": uuid(),
-                "category": category,
-                "title": title,
-                "description": description,
-                "deadline": deadline
+                _id: responseJson.insertedId,
+                ...task
             }
-        ])
-    }
-
-    const handleEditTask = (id, {category, title, description, deadline}) => {
-        setTasks((prevTasks) => prevTasks.map(task => {
-            return task.id !== id ? task : {
-                "category": category,
-                "title": title,
-                "description": description,
-                "deadline": deadline
-            }
-        }))
-    }
-
-    const handleDeleteTask = (id) => {
-        setTasks(prevTasks => prevTasks.filter(item => item.id !== id))
+        ]);
     }
 
     const taskElements = tasks.map(task => {
         return (
             <Task
-                key={task.id}
-                id={task.id}
-                category={task.category}
-                title={task.title}
-                description={task.description || "..."}
-                deadline={task.deadline || "..."}
-                editTask={(newTask)=>handleEditTask(task.id, newTask)}
-                deleteTask={()=>handleDeleteTask(task.id)}
+                key={task._id}
+                task={task}
+                setTasks={setTasks}
             />
         )
     })
-    
+
     return (
         <>
             <div className={styles.board}>
