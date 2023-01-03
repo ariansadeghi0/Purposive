@@ -1,20 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import AddTaskDialog from '../AddTaskDialog/AddTaskDialog';
 import Task from '../Task/Task';
 import styles from './TaskBoard.module.css';
 import Image from 'next/image';
+import { useUser } from '../../context/UserContext';
 
-export default function TaskBoard(props) {
-    const [tasks, setTasks] = useState([]);
+export default function TaskBoard({tasks, setTasks}) {
+    const user = useUser();
     const [addTaskDialogOpen, setAddTaskDialogOpen] = useState(false);
-
-    useEffect(()=> {
-        (async () => {
-            const getTasks = await fetch("/api/task");
-            const getTasksJson = await getTasks.json().finally();
-            setTasks(getTasksJson.map(task => ({_id: task._id, ...task})));
-        })();
-    }, [])
 
     const handleAddTask = async ({category, title, description, deadline}) => {
         const task = {
@@ -27,9 +20,9 @@ export default function TaskBoard(props) {
                 completed: false
             },
             user: {
-                id: "aglkahgla",
-                name: "Arian Sadeghi",
-                username: "ariosh"
+                id: user.id,
+                name: user.name,
+                nickname: user.nickname
             }
         };
 
