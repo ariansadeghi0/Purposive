@@ -1,0 +1,60 @@
+.board {
+    background-color: rgba(0, 0, 0, 0.15);
+    filter: drop-shadow(0px 0px 5px black);
+
+    border-radius: 20px;
+    margin: 10px;
+    height: 89vh;
+}
+
+.board_headers {
+    display: grid;
+    grid-template-columns: 20% 25% 17.5% 22.5% 11%;
+    column-gap: 1%;
+    justify-items: center;
+    align-items: center;
+    margin: 0px 15px 7.5px 15px;
+    padding: 5px 15px;
+}
+
+.header {
+    color: rgba(255, 255, 255, 0.75);
+    margin: 0;
+}
+
+.add_task_button {
+    background-color: rgba(255, 255, 255, 0.65);
+    filter: drop-shadow(0px 2px 2px black);
+    border-style: none;
+    margin: 0px;
+    width: 100%;
+
+    padding: 10px;
+    border-radius: 10px;
+    grid-column-start: 5;
+    grid-column-end: 7;
+
+    display: flex;
+    justify-content: center;
+
+    font-family: 'Roboto Mono', monospace;
+    font-size: 16px;
+
+    transition: all 0.25s ease-in-out;
+}
+
+.add_task_button:hover {
+    filter: drop-shadow(0px 2px 2px rgb(212, 212, 212));
+    cursor: pointer;
+}
+
+.add_task_button:active {
+    background-color: rgba(170, 170, 170, 0.65);
+}
+
+.add_icon {
+    display: inline;
+    transform: rotate(45deg);
+    margin-right: 5px;
+    align-self: center;
+}
